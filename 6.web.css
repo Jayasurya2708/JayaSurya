@@ -1,0 +1,41 @@
+*{
+    background-color: black;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px ;
+    background-color: black;
+    gap: 20px;
+    
+}
+
+nav a{
+    color: white;
+    font-size: 20px;
+    text-decoration: solid;
+    transition: color 0.5s;
+}
+
+nav a:hover {
+    color: rgb(160, 43, 196);
+}
+
+.about{
+    color: white;
+    height: auto;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 8px rgba(150, 63, 190, 0.591);
+    border-radius: 20px;
+   
+}
+
+.about p{
+    font-size: 20px;
+}
+
+.aboutimage {
+    width: 250px;
+    height: auto;
+}
