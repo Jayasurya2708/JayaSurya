@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Form</title>
+  <link rel="stylesheet" href="13.ValidationForm.css">
+</head>
+<body>
+  <div class="register-container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (!username || !email || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!email.match(emailPattern)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      alert("Registration successful!");
+    });
+  </script>
+
+</body>
+<script src="13.ValidationForm.js"></script>
+</html>
