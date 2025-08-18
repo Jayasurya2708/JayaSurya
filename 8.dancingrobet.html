@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dancing Robot — HTML + CSS</title>
+  <style>
+    :root{
+      --bg:#d1f7f7;
+      --robot:#f1fa79;
+      --accent:#000000;
+      --metal:#6b7280;
+      --glass:#0c0f13;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; display:grid; place-items:center; background: radial-gradient(1000px 600px at 10% 10%, #06202b, var(--bg));
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#0d0e0f;
+    }
+
+    .stage{
+      width:480px; height:420px; position:relative; display:flex; align-items:center; justify-content:center;
+      border-radius:16px; box-shadow:0 10px 40px rgba(239, 241, 248, 0.6), inset 0 -6px 30px rgba(247, 239, 239, 0.35);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:28px;
+    }
+
+ 
+    .robot{
+      --head-w:120px; --body-w:160px; --limb-w:18px;
+      width:220px; height:300px; position:relative; transform-origin:center bottom; 
+      transition:transform 400ms cubic-bezier(.2,.9,.2,1);
+    }
+
+   
+    .robot.dance{ animation:robot-bop 0.9s infinite ease-in-out; }
+    @keyframes robot-bop{
+      0%{ transform:translateY(0) rotate(-1deg); }
+      50%{ transform:translateY(-10px) rotate(2deg); }
+      100%{ transform:translateY(0) rotate(-1deg); }
+    }
+
+ 
+    .head{
+      width:var(--head-w); height:var(--head-w); background:linear-gradient(180deg,var(--robot), #7ea3bf); border-radius:18px; margin:0 auto; position:relative; z-index:6;
+      display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(3,7,18,0.6), inset 0 -6px 12px rgba(255,255,255,0.03);
+    }
+    .antenna{ position:absolute; top: -22px;2px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; }
+    .ant-stick{ width:6px; height:24px; background:var(--metal); border-radius:4px; }
+    .ant-ball{ width:12px; height:12px; background:var(--accent); border-radius:50%; box-shadow:0 2px 8px rgba(79,209,197,0.45); }
+
+    .face{ width:86%; height:66%; display:flex; align-items:center; justify-content:space-around; }
+    .eye{ width:22px; height:22px; background:linear-gradient(180deg,var(--glass), #bfe7ff); border-radius:50%; box-shadow:0 6px 12px rgba(3,7,18,0.4) inset; position:relative; }
+    .eye::after{ content:''; position:absolute; width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.9); top:4px; left:5px; }
+
+    .mouth{ width:60px; height:8px; border-radius:6px; background:linear-gradient(90deg,#0f1724,#1e293b); box-shadow:0 3px 10px rgba(0,0,0,0.55); position:relative; overflow:hidden; }
+    .mouth .led{ position:absolute; height:100%; width:200%; left:-100%; display:flex; gap:10px; align-items:center; }
+    .mouth .led span{ display:block; width:10px; height:6px; border-radius:2px; background:linear-gradient(90deg,var(--accent), #8ddbd0); filter:brightness(0.95); }
+
+ 
+    .body{
+      width:var(--body-w); height:140px; background:linear-gradient(180deg,#cfe6f8, #92b6d3); border-radius:16px; margin:12px auto 0; position:relative; z-index:4; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(2,6,23,0.4);
+    }
+    .panel{ width:78%; height:84%; background:linear-gradient(180deg,#eaf7fb,#d9eef8); border-radius:10px; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:10px; box-shadow:inset 0 4px 12px rgba(0,0,0,0.06); }
+    .meter{ height:100%; border-radius:6px; background:linear-gradient(180deg,#f9fafb,#e7f2f7); display:flex; align-items:flex-end; justify-content:center; padding:6px; }
+    .meter i{ display:block; width:18px; height:22px; border-radius:4px; background:linear-gradient(180deg,var(--accent), #2bb7a7); transform-origin:center bottom; }
+
+ 
+    .arm{ position:absolute; top:140px; width:var(--limb-w); height:96px; background:linear-gradient(180deg,#98b6cc, #6f8fa6); border-radius:8px; transform-origin:top center; box-shadow:0 6px 14px rgba(3,7,18,0.45);
+    }
+    .arm.left{ left: 12px; }
+    .arm.right{ right:12px; }
+    .hand{ width:34px; height:34px; background:linear-gradient(180deg,var(--metal), #537db8ff); border-radius:8px; position:absolute; top:86px; left:50%; transform:translateX(-50%); display:flex; align-items:center; justify-content:center; }
+    .hand .claw{ width:8px; height:40px; background:#111827; border-radius:4px; }
+
+    .leg{ position:absolute; bottom:-10px; width:var(--limb-w); height:86px; background:linear-gradient(180deg,#98b6cc, #6f8fa6); border-radius:8px; transform-origin:top center; box-shadow:0 8px 20px rgba(3,7,18,0.45); }
+    .leg.left{ left:40px; }
+    .leg.right{ right:40px; }
+    .foot{ width:46px; height:18px; border-radius:8px; background:linear-gradient(180deg,#374151,#1f2937); position:absolute; bottom:-18px; left:50%; transform:translateX(-50%); box-shadow:0 8px 18px rgba(2,6,23,0.5); }
+
+    
+    .robot.dance .arm.left{ animation:wave-right 1s infinite ease-in-out; }
+    .robot.dance .arm.right{ animation:wave-left 1s infinite ease-in-out; }
+    .robot.dance .leg.left{ animation:kick-right 1s infinite ease-in-out; }
+    .robot.dance .leg.right{ animation:kick-left 1s infinite ease-in-out; }
+    .robot.dance .mouth .led{ animation:mouth-flash 0.6s linear infinite; }
+    .robot.dance .eye{ animation:eye-blink 3s infinite steps(1); }
+
+    @keyframes wave-left{
+      0%{ transform:rotate(6deg) translateY(0); }
+      50%{ transform:rotate(-180deg) translateY(-8px); }
+      100%{ transform:rotate(6deg) translateY(0); }
+    }
+    @keyframes wave-right{
+      0%{ transform:rotate(-6deg) translateY(0); }
+      50%{ transform:rotate(180deg) translateY(-8px); }
+      100%{ transform:rotate(-6deg) translateY(0); }
+    }
+    @keyframes kick-left{
+      0%{ transform:rotate(0deg); }
+      45%{ transform:rotate(18deg) translateY(0); }
+      70%{ transform:rotate(-10deg) translateY(-6px); }
+      100%{ transform:rotate(0deg); }
+    }
+    @keyframes kick-right{
+      0%{ transform:rotate(0deg); }
+      45%{ transform:rotate(-18deg) translateY(0); }
+      70%{ transform:rotate(10deg) translateY(-6px); }
+      100%{ transform:rotate(0deg); }
+    }
+    @keyframes mouth-flash{
+      0%{ left:-100%; opacity:0; }
+      20%{ opacity:1; }
+      100%{ left:0%; opacity:0; }
+    }
+    @keyframes eye-blink{
+      0%,93%{ transform:scaleY(1); }
+      96%{ transform:scaleY(0.08); }
+      100%{ transform:scaleY(1); }
+    }
+
+
+    .controls{ position:absolute; bottom:18px; left:50%; transform:translateX(-50%); display:flex; gap:8px; }
+    button{ background:transparent; border:1px solid rgba(255,255,255,0.08); color:var(--glass); padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:600; backdrop-filter: blur(6px); }
+    button.primary{ background:linear-gradient(90deg, rgba(79,209,197,0.12), rgba(79,209,197,0.06)); border-color:rgba(79,209,197,0.25); }
+    button:active{ transform:translateY(1px); }
+
+    @media (max-width:520px){ .stage{ width:320px; height:360px; } }
+  </style>
+</head>
+<body>
+  <div class="stage" role="application" aria-label="Dancing robot stage">
+    <div class="robot" id="robot">
+      <div class="head">
+        <div class="antenna">
+          <div class="ant-stick"></div>
+          <div class="ant-ball"></div>
+        </div>
+        <div class="face">
+          <div class="eye" aria-hidden="true"></div>
+          <div class="mouth"><div class="led"><span></span><span></span><span></span><span></span></div></div>
+          <div class="eye" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="panel">
+          <div class="meter"><i style="height:50%"></i></div>
+          <div class="meter"><i style="height:80%"></i></div>
+          <div class="meter"><i style="height:30%"></i></div>
+        </div>
+      </div>
+
+      <div class="arm left" aria-hidden="true">
+        <div class="hand"><div class="claw"></div></div>
+      </div>
+      <div class="arm right" aria-hidden="true">
+        <div class="hand"><div class="claw"></div></div>
+      </div>
+
+      <div class="leg left" aria-hidden="true"><div class="foot"></div></div>
+      <div class="leg right" aria-hidden="true"><div class="foot"></div></div>
+
+    </div>
+
+    <div class="controls" style="width:100%; max-width:360px;">
+      <button id="toggle" class="primary">Start Dance</button>
+      <button id="shake">Quick Shuffle</button>
+      <button id="stop">Stop</button>
+    </div>
+  </div>
+
+  <script>
+    const robot = document.getElementById('robot');
+    const toggle = document.getElementById('toggle');
+    const stop = document.getElementById('stop');
+    const shake = document.getElementById('shake');
+
+    let dancing = false;
+    toggle.addEventListener('click', ()=>{
+      dancing = !dancing;
+      robot.classList.toggle('dance', dancing);
+      toggle.textContent = dancing ? 'Pause Dance' : 'Start Dance';
+    });
+    stop.addEventListener('click', ()=>{
+      dancing = false;
+      robot.classList.remove('dance');
+      toggle.textContent = 'Start Dance';
+    });
+
+ 
+    shake.addEventListener('click', ()=>{
+      robot.classList.add('dance');
+      robot.style.animationDuration = '0.6s';
+      setTimeout(()=>{ robot.style.animationDuration = ''; robot.classList.remove('dance'); }, 900);
+    });
+
+   
+    window.addEventListener('load', ()=>{
+      robot.animate([
+        { transform: 'translateY(0) rotate(-2deg)' },
+        { transform: 'translateY(-8px) rotate(4deg)' },
+        { transform: 'translateY(0) rotate(-2deg)' }
+      ], { duration: 700, easing: 'ease-in-out' });
+    });
+  </script>
+</body>
+</html>
